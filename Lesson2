@@ -1,0 +1,44 @@
+// SPDX-License-Identifier: MIT 
+
+pragma solidity ^0.6.0;
+
+import "./SimpleStorage.sol";
+
+contract StorageFactory is SimpleStorage {
+    // by adding "is SimpleStorage" we INHERIT the contract with SimpleStorage contract, meaning that
+    // we now have all the functions from SimpleStorage in StorageFactory
+    
+    // We don't know where the new contracts will be created, but we can define a way to locate them by using
+    // a list or an array
+    
+    SimpleStorage[] public SimpleStorageArray;  
+    // the call of the deployed contract "SimpleStorage":0 will give us the address of this contract
+    
+    function createSimpleStorageContract () public {
+        SimpleStorage simpleStorage = new SimpleStorage(); 
+        // create object of type SimpleStorage, named simpleStorage that will be a new SimpleStorage contract switch
+        // no input variables
+        SimpleStorageArray.push(simpleStorage);
+    }
+    
+    
+    // Importing functions from other contracts
+    // To interact with a contract we need 2 things:
+        // Address
+        // ABI (Aplication Binary Interface)
+        
+    function sfStore (uint256 _simpleStorageIndex, uint256 _simpleStorageNumber) public {
+         SimpleStorage simpleStorage = SimpleStorage (address(SimpleStorageArray[_simpleStorageIndex]));
+         simpleStorage.store(_simpleStorageNumber);
+         // the function can be simplified by writting directly:
+         // SimpleStorage (address(SimpleStorageArray[_simpleStorageIndex])).store(_simpleStorageNumber);
+    }
+    
+    
+    function sfGet (uint256 _simpleStorageIndex) public view returns (uint256) {
+        SimpleStorage simpleStorage = SimpleStorage(address(SimpleStorageArray[_simpleStorageIndex]));
+        return simpleStorage.retrieve();
+        // the function can be simplified by writting directly:
+        // return SimpleStorage(address(SimpleStorageArray[_simpleStorageIndex])).retrieve();
+    }
+}
