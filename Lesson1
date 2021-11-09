@@ -1,0 +1,101 @@
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.6.0;
+
+contract SimpleStorage {
+
+    //////////////////////////////
+    //          VARIABLES       //
+    //////////////////////////////
+    
+    
+    //Variables are defined as "TYPE" + "VISIBILITY" + "NAME"
+    
+    uint256 favoriteNumber; // it will initialize to 0
+    
+    
+    
+    //////////////////////////////
+    //         FUNCTIONS        //
+    //////////////////////////////
+    
+    // let's make a function that will change the previous value: 
+    function store (uint256 _favoriteNumber) public {
+        favoriteNumber = _favoriteNumber;
+    }
+    //      the public instance defines the visibility of a variable or f, will create a button to interact with
+    
+    
+    
+    // VIEW & PURE 
+    
+    function retrieve() public view returns(uint256){
+        return favoriteNumber;
+    }
+    
+    // pure functions purely do math
+    function retrieve(uint256 favoriteNumber) public pure {
+        favoriteNumber + favoriteNumber;
+    }
+    
+    
+    
+    //////////////////////////////
+    //      DATA STRUCTURES     //
+    //////////////////////////////
+    
+    
+    ////////////////// DICTIONARIES & ARRAYS
+    
+    struct People {
+        uint256 favoriteNumber;
+        string name;
+    }
+    
+    //People public person = People ({favoriteNumber: 33, name: "David"});
+    
+    People[] public people;
+    // People [1] public people;  > this array would have a maximum size of 1 person
+    
+    // function addPerson (string memory _name, uint256 _favoriteNumber) public {
+    //    people.push(People({favoriteNumber:_favoriteNumber, name: _name}));
+        //people.push (People(_favoriteNumber, _name));  //> this would also work
+    //}
+    
+    
+    ////////////////////  MAPPING
+    
+    mapping(string => uint256) public nameToFavoriteNumber;
+    
+    function addPerson (string memory _name, uint256 _favoriteNumber) public {
+        people.push(People({favoriteNumber:_favoriteNumber, name: _name}));
+        nameToFavoriteNumber [_name] = _favoriteNumber; 
+    }
+    
+}
+
+    // VARIABLES
+            //uint256 favoriteNumber = 33;
+            //bool favoriteBool = true;
+            //string favoriteString = "Olakease";
+            //int256 favoriteInt = -5;
+            //address favoriteAddress = 0x7D13cE3aDbF74F423cD882Ef29561A791BD4FF52;
+            //bytes32 favoriteBytes = "cat";
+
+    // VIEW AND PURE
+            // view and pure only "read" the function, don't make transactions (i.e. change in the blockchain)
+            // public variables have view functions, that is why favoriteNumber is also a blue button
+
+    // TYPES OF STORAGE
+        // memory: data will only be stored during the execution of the function or contract call
+        // storage: the data will persist after it is executed
+        
+    // strings are object arrays, we can append, so have to specify how to store the information
+
+    // TYPES OF VISIBILITY
+            // external > only called by an external contract
+            // public
+            // internal > only called by the same contract or derivates (by default)
+            // private > only only visible in contracts they are defined
+    
+    
